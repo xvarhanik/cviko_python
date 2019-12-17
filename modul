@@ -1,0 +1,110 @@
+f myeval(l,v):
+    if(type(l)==str):
+        return v[l]
+    elif(type(l)==int or type(l)==float):
+        return l
+        
+    if(type(l[1]) == list):
+        l[1]=myevald(l[1],v)
+    if(type(l[2]) == list):
+        l[2]=myevald(l[2],v)
+
+    if(type(l[1])==str):
+        l[1]= v[l[1]]
+    if(type(l[2])==str):
+        l[2]= v[l[2]]
+
+
+    if(l[0]=="+"):
+        return l[1]+l[2]
+    if(l[0]=="-"):
+        return l[1]-l[2]
+    if(l[0]=="*"):
+        return l[1]*l[2]
+    if(l[0]=="/"):
+        return l[1]/l[2]
+
+def myderive(f,var):
+    
+    if type(f)==str and f!=var:
+        return 0
+    if type(f)==int:
+        return 0
+    if type(f)==str and f==var:
+        return 1
+    
+   
+    if f[0]=="+":
+        return ["+",myderive(f[1],var),myderive(f[2],var)]
+    if f[0]=="-":
+        return ["-",myderive(f[1],var),myderive(f[2],var)]
+    if f[0]=="*":
+        return ["+",["*",myderive(f[1],var),f[2]],["*",f[1],myderive(f[2],var)]]
+    if f[0]=="/":
+        return ["/",["-",["*",myderive(f[1],var),f[2]],["*",f[1],myderive(f[2],var)]],["*",f[2],f[2]]] 
+
+
+def mysimplify(f):
+    if(type(f)==list):
+        
+        if f[0]=="+":
+            if type(f[1])==list:
+                f[1]=mysimplify(f[1])
+            if type(f[2])==list:
+                f[2]=mysimplify(f[2])
+            if f[1]==0:
+                return f[2]
+            elif f[2]==0:
+                return f[1]
+            else:
+                return f
+        if f[0]=="-":
+            if type(f[1])==list:
+                f[1]=mysimplify(f[1])
+            if type(f[2])==list:
+                f[2]=mysimplify(f[2])
+            if f[1]==0:
+                return f[2]
+            elif f[2]==0:
+                return f[1]
+            else:
+                return f
+        
+        if f[0]=="*":
+            if type(f[1])==list:
+                f[1]=mysimplify(f[1])
+            if type(f[2])==list:
+                f[2]=mysimplify(f[2])
+            if f[1]==1:
+                return f[2]
+            elif f[2]==1:
+                return f[1]
+            else if f[1]==0:
+                return 0
+            else if f[2]==0:
+                return 0
+            else:
+                return f
+        
+        if f[0]=="/":
+            if type(f[1])==list:
+                f[1]=mysimplify(f[1])
+            if type(f[2])==list:
+                f[2]=mysimplify(f[2])
+            if f[2]==1:
+                return f[1]
+            
+            
+    else return f
+              
+
+
+if __name__=="__main__":
+    #print(myderive(1,"x"))
+    #print(myderive("y","x"))
+    #print(myderive("x","x"))
+    #print(myderive(["+",2,"x"],"x"))
+    #print(myderive(["*","x","x"],"x"))
+    #print(myderive(["/","x","y"],"y"))
+    #print(mysimplify(["+",["+","x",0],["+","x","1"]]))
+    
