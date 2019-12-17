@@ -1,4 +1,4 @@
-f myeval(l,v):
+def myeval(l,v):
     if(type(l)==str):
         return v[l]
     elif(type(l)==int or type(l)==float):
@@ -94,7 +94,7 @@ def mysimplify(f):
             if f[2]==1:
                 return f[1]
             
-            
+     #kontrola ci f1 je list a f2 je list by mohla prebehnut globalne pre kazdy znak a az potom budem riesit co je f0       
     else return f
               
 
